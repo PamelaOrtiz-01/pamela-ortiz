@@ -97,6 +97,7 @@
             <a href="#page3" class="page">3</a>
             <a href="#page4" class="page">4</a>
             <a href="#page5" class="page">5</a>
+            <a href="#" class="next">Next</a>
           </div>
         </footer>
 
@@ -123,11 +124,12 @@
     <script src="assets/js/util.js"></script>
     <script src="assets/js/main.js"></script>
 
-    <!-- Script de paginación -->
+    <!-- Script de paginación con NEXT funcional -->
     <script>
       document.addEventListener("DOMContentLoaded", () => {
         const pages = document.querySelectorAll(".post");
         const links = document.querySelectorAll(".pagination a.page");
+        const nextBtn = document.querySelector(".pagination a.next");
 
         function showPage(id) {
           pages.forEach(p => p.style.display = "none");
@@ -139,14 +141,19 @@
           if (link) link.classList.add("active");
         }
 
-        // Mostrar página según hash o la primera por defecto
+        function currentPageIndex() {
+          const active = document.querySelector(".pagination a.page.active");
+          return Array.from(links).indexOf(active);
+        }
+
+        // Mostrar página inicial según hash
         if (window.location.hash) {
           showPage(window.location.hash);
         } else {
           showPage("#page1");
         }
 
-        // Cambiar de página al hacer clic
+        // Cambiar de página al hacer clic en los números
         links.forEach(link => {
           link.addEventListener("click", e => {
             e.preventDefault();
@@ -155,6 +162,18 @@
             history.pushState(null, "", id);
           });
         });
+
+        // Botón NEXT funcional
+        if (nextBtn) {
+          nextBtn.addEventListener("click", e => {
+            e.preventDefault();
+            let index = currentPageIndex();
+            index = (index + 1) % links.length; // vuelve a la primera al llegar al final
+            const nextPage = links[index].getAttribute("href");
+            showPage(nextPage);
+            history.pushState(null, "", nextPage);
+          });
+        }
       });
     </script>
 
