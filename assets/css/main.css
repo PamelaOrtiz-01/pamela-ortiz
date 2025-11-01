@@ -4687,3 +4687,11 @@ input, select, textarea {
 		}
 
 	}
+
+.morena header.major p {
+    margin-bottom: 0.5em;
+}
+
+.morena header.major h2 {
+    margin-bottom: 0.3em;
+}
